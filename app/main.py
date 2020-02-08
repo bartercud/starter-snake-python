@@ -49,7 +49,7 @@ def start():
     headType = "shades"
     tailType = "block-bum"
 
-    return start_response(color)
+    return start_response(color, headType, tailType)
 
     '''
     {
