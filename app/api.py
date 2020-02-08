@@ -6,12 +6,12 @@ def ping_response():
         status=200
     )
 
-def start_response(color, head, tail):
+def start_response(color, headType, tailType):
     assert type(color) is str, \
         "Color value must be string"
-    assert type(head) is str, \
+    assert type(headType) is str, \
         "Head value must be string"
-    assert type(tail) is str, \
+    assert type(tailType) is str, \
         "Tail value must be string"
 
     return HTTPResponse(
@@ -20,9 +20,9 @@ def start_response(color, head, tail):
             "Content-Type": "application/json"
         },
         body=json.dumps({
-            "color": color
-            "head": head
-            "tail": tail
+            "color": color,
+            "headType": head,
+            "tailType": tail
         })
     )
 
