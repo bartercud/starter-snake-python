@@ -43,7 +43,7 @@ def start():
             initialize your snake state here using the
             request's data if necessary.
     """
-    print(json.dumps(data))
+    # print(json.dumps(data))
 
     return {
         "color": "#AA0004",
