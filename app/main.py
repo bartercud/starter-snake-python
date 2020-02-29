@@ -43,17 +43,29 @@ def start():
             initialize your snake state here using the
             request's data if necessary.
     """
-    print(json.dumps(data))
-
-    color = "#00FF00"
-    headType = "shades"
-    tailType = "block-bum"
+    #print(json.dumps(data))
 
     return {
         "color": "#AA0004",
         "headType": "shades",
         "tailType": "block-bum"
     }
+
+
+@bottle.post('/move')
+def move():
+    data = bottle.request.json
+
+    """
+    TODO: Using the data from the endpoint request object, your
+            snake AI must choose a direction to move in.
+    """
+    print(json.dumps(data))
+
+    directions = ['up', 'down', 'left', 'right']
+    direction = random.choice(directions)
+
+    return move_response(direction
 
     '''
     {
@@ -97,22 +109,6 @@ def start():
   }
 }
 '''
-
-
-@bottle.post('/move')
-def move():
-    data = bottle.request.json
-
-    """
-    TODO: Using the data from the endpoint request object, your
-            snake AI must choose a direction to move in.
-    """
-    print(json.dumps(data))
-
-    directions = ['up', 'down', 'left', 'right']
-    direction = random.choice(directions)
-
-    return move_response(direction)
 
 
 @bottle.post('/end')
