@@ -43,7 +43,7 @@ def start():
             initialize your snake state here using the
             request's data if necessary.
     """
-    #print(json.dumps(data))
+    print(json.dumps(data))
 
     return {
         "color": "#AA0004",
@@ -60,55 +60,13 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
-    print(json.dumps(data))
+    # print(json.dumps(data))
 
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
 
-    return move_response(direction
+    return move_response(direction)
 
-    '''
-    {
-  "game": {
-    "id": "game-id-string"
-  },
-  "turn": 4,
-  "board": {
-    "height": 15,
-    "width": 15,
-    "food": [
-      {
-        "x": 1,
-        "y": 3
-      }
-    ],
-    "snakes": [
-      {
-        "id": "snake-id-string",
-        "name": "Sneky Snek",
-        "health": 90,
-        "body": [
-          {
-            "x": 1,
-            "y": 3
-          }
-        ]
-      }
-    ]
-  },
-  "you": {
-    "id": "snake-id-string",
-    "name": "Sneky Snek",
-    "health": 90,
-    "body": [
-      {
-        "x": 1,
-        "y": 3
-      }
-    ]
-  }
-}
-'''
 
 
 @bottle.post('/end')
