@@ -126,21 +126,33 @@ def move():
         if ("down" in foodmoves) and ("down" in linevalidmoves):
             foodlinevalidmoves.append("down")
 
-    finalmoves = foodlinevalidmoves
-    if (len(foodlinevalidmoves) == 0):
-        finalmoves = tmpmoves
-    if (len(tmpmoves) == 0):
-        finalmoves == linevalidmoves
-    if (len(linevalidmoves) == 0):
+    masterlist = []
+
+    if (len(foodlinevalidmoves) != 0):
+        masterlist.append("foodlinevalidmoves")
+    if (len(tmpmoves) != 0):
+        masterlist.append("tmpmoves")
+    if (len(linevalidmoves) != 0):
+        masterlist.append("linevalidmoves")
+    if (len(validmoves) != 0):
+        masterlist.append("validmoves")
+
+    if ("validmoves" in masterlist):
         finalmoves = validmoves
-    if (len(validmoves) == 0):
+    if ("linevalidmoves" in masterlist):
+        finalmoves = linevalidmoves
+    if ("tmpmoves" in masterlist):
+        finalmoves = tmpmoves
+    if ("foodlinevalidmoves" in masterlist):
+        finalmoves = foodlinevalidmoves
+    if (len(masterlist) == 0):
         finalmoves = openmoves
 
     try:
         direction = random.choice(finalmoves)
         return move_response(direction)
     except IndexError:
-        dead = "left"
+        dead = "right"
         return move_response(dead)
 
 def time_to_eat(food, myhead, foodmoves):
