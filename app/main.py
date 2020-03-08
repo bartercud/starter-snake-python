@@ -77,6 +77,8 @@ def move():
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes, body)
     self_check(myhead, body, selfsafemoves)
 
+    print("wallsafemoves:")
+    print(wallsafemoves)
 
 
 
@@ -89,9 +91,16 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    if me['health'] < 30:
+    print("validmoves")
+    print(validmoves)
+
+
+
+    if myhealth < 30:
 
         time_to_eat(othersnakes, me, food, myhead, foodmoves)
+        print("foodmoves")
+        print(foodmoves)
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
@@ -101,8 +110,15 @@ def move():
             finalmoves.append("up")
         if ("down" in foodmoves) and ("down" in validmoves):
             finalmoves.append("down")
+        print('health less than 30')
+
+
     else:
         finalmoves = validmoves
+        print('health above 30')
+
+    print("finalmoves")
+    print(finalmoves)
 
     # try:
     direction = random.choice(finalmoves)
