@@ -19,7 +19,7 @@
         "health": 90,
         "body": [
           {
-            "x": 1,
+            "x": 0,
             "y": 3
           }
         ],
@@ -33,9 +33,14 @@
     "health": 90,
     "body": [
       {
-        "x": 1,
+        "x": 2,
         "y": 3
+      },
+      {
+        "x": 2,
+        "y": 2
       }
+
     ],
     "shout": "Hello my name is Sneky Snek"
   }

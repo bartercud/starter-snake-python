@@ -67,6 +67,7 @@ def move():
     wallsafemoves = []
     othersnakebodysafemoves = []
     othersnakeheadsafemoves = []
+    selfsafemoves = []
     finalmoves = []
 
     print("calling time_to_eat")
@@ -74,14 +75,18 @@ def move():
     wall_detection(boardsize, myhead, wallsafemoves)
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
+    self_check(myhead, body, selfsafemoves)
 
-    if ("left" in wallsafemoves) and ("left" in othersnakebodysafemoves) and ("left" in othersnakeheadsafemoves):
+
+
+
+    if ("left" in wallsafemoves) and ("left" in othersnakebodysafemoves) and ("left" in othersnakeheadsafemoves) and ("left" in selfsafemoves):
         validmoves.append("left")
-    elif ("right" in wallsafemoves) and ("right" in othersnakebodysafemoves) and ("right" in othersnakeheadsafemoves):
+    if ("right" in wallsafemoves) and ("right" in othersnakebodysafemoves) and ("right" in othersnakeheadsafemoves) and ("right" in selfsafemoves):
         validmoves.append("right")
-    elif ("up" in wallsafemoves) and ("up" in othersnakebodysafemoves) and ("up" in othersnakeheadsafemoves):
+    if ("up" in wallsafemoves) and ("up" in othersnakebodysafemoves) and ("up" in othersnakeheadsafemoves) and ("up" in selfsafemoves):
         validmoves.append("up")
-    elif ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves):
+    if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
     if me['health'] < 20:
@@ -90,15 +95,26 @@ def move():
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
-        elif ("right" in foodmoves) and ("right" in validmoves):
+        if ("right" in foodmoves) and ("right" in validmoves):
             finalmoves.append("right")
-        elif ("up" in foodmoves) and ("up" in validmoves):
+        if ("up" in foodmoves) and ("up" in validmoves):
             finalmoves.append("up")
-        elif ("down" in foodmoves) and ("down" in validmoves):
+        if ("down" in foodmoves) and ("down" in validmoves):
             finalmoves.append("down")
     else:
         finalmoves = validmoves
-
+    print("wallsafemoves: ")
+    print(wallsafemoves)
+    print("othersnakebodysafemoves: ")
+    print(othersnakebodysafemoves)
+    print("othersnakeheadsafemoves")
+    print(othersnakeheadsafemoves)
+    print("selfsafemoves")
+    print(selfsafemoves)
+    print("validmoves: ")
+    print(validmoves)
+    print("finalmoves: ")
+    print(finalmoves)
     try:
         direction = random.choice(finalmoves)
         return move_response(direction)
@@ -112,11 +128,11 @@ def time_to_eat(othersnakes, me, food, myhead, foodmoves):
         for f in food:
             if (f[0] - myhead[0]) < 0:
                 foodmoves.append("left")
-            elif (f[0] - myhead[0]) > 0:
+            if (f[0] - myhead[0]) > 0:
                 foodmoves.append("right")
-            elif (f[1] - myhead[1]) < 0:
+            if (f[1] - myhead[1]) < 0:
                 foodmoves.append("up")
-            elif (f[1] - myhead[1]) > 0:
+            if (f[1] - myhead[1]) > 0:
                 foodmoves.append("down")
 
 
@@ -147,11 +163,11 @@ def is_other_closer(othersnakes, myhead, food):
 def wall_detection(boardsize, myhead, wallsafemoves):
     if (myhead[0] != 0):
         wallsafemoves.append('left')
-    elif (myhead[0] != boardsize):
+    if (myhead[0] != boardsize):
         wallsafemoves.append('right')
-    elif (myhead[1] != 0):
+    if (myhead[1] != 0):
         wallsafemoves.append('up')
-    elif (myhead[1] != boardsize):
+    if (myhead[1] != boardsize):
         wallsafemoves.append('down')
 
 def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
@@ -163,19 +179,19 @@ def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
         for b in s['body']:
             if (((b['x'] - 1) == myhead[0]) and (b['y'] == myhead[1])):
                 xrightcount += 1
-            elif (((b['x'] + 1) == myhead[0]) and (b['y'] == myhead[1])):
+            if (((b['x'] + 1) == myhead[0]) and (b['y'] == myhead[1])):
                 xleftcount += 1
-            elif (((b['y'] - 1) == myhead[1]) and (b['x'] == myhead[0])):
+            if (((b['y'] - 1) == myhead[1]) and (b['x'] == myhead[0])):
                 yupcount += 1
-            elif (((b['y'] + 1) == myhead[1]) and (b['x'] == myhead[0])):
+            if (((b['y'] + 1) == myhead[1]) and (b['x'] == myhead[0])):
                 ydowncount += 1
     if (xleftcount == 0):
         othersnakebodysafemoves.append('left')
-    elif (xrightcount == 0):
+    if (xrightcount == 0):
         othersnakebodysafemoves.append('right')
-    elif (yupcount == 0):
+    if (yupcount == 0):
         othersnakebodysafemoves.append('up')
-    elif (ydowncount == 0):
+    if (ydowncount == 0):
         othersnakebodysafemoves.append('down')
 
 
@@ -184,38 +200,61 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
     xleftcount = 0
     xrightcount = 0
     yupcount = 0
+    ydowncount = 0
     for s in othersnakes:
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
             xleftcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
+        if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
             xleftcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
+        if ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
             xleftcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]-1)):
+        if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]-1)):
             xleftcount += 1
             yupcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-1)):
+        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-1)):
             yupcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-2)):
+        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-2)):
             yupcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]-1)):
+        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]-1)):
             yupcount += 1
             xrightcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1])):
+        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1])):
             xrightcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]+2) and (s['body'][0]['y'] == myhead[1])):
+        if ((s['body'][0]['x'] == myhead[0]+2) and (s['body'][0]['y'] == myhead[1])):
             xrightcount += 1
-        elif ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
+        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
             xrightcount += 1
     if (xleftcount == 0):
         othersnakeheadsafemoves.append('left')
-    elif (xrightcount == 0):
+    if (xrightcount == 0):
         othersnakeheadsafemoves.append('right')
-    elif (yupcount == 0):
+    if (yupcount == 0):
         othersnakeheadsafemoves.append('up')
-    elif (ydowncount == 0):
+    if (ydowncount == 0):
         othersnakeheadsafemoves.append('down')
 
+def self_check(myhead, body, selfsafemoves):
+    xleftcount = 0
+    xrightcount = 0
+    yupcount = 0
+    ydowncount = 0
+    for b in body:
+        if (b[0] == myhead[0]) and (b[1] == myhead[1]-1):
+            yupcount += 1
+        if (b[0] == myhead[0]) and (b[1] == myhead[1]+1):
+            ydowncount += 1
+        if (b[0] == myhead[0]-1) and (b[1] == myhead[1]):
+            xleftcount += 1
+        if (b[0] == myhead[0]+1) and (b[1] == myhead[1]):
+            xrightcount += 1
+    if (xleftcount == 0):
+        selfsafemoves.append('left')
+    if (xrightcount == 0):
+        selfsafemoves.append('right')
+    if (yupcount == 0):
+        selfsafemoves.append('up')
+    if (ydowncount == 0):
+        selfsafemoves.append('down')
 
 
 
