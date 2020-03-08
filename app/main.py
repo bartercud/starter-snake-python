@@ -74,7 +74,7 @@ def move():
     # time_to_eat(othersnakes, me, food, myhead, foodmoves, body)
     wall_detection(boardsize, myhead, wallsafemoves)
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
-    snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
+    snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes, body)
     self_check(myhead, body, selfsafemoves)
 
 
@@ -91,7 +91,7 @@ def move():
 
     if me['health'] < 89:
 
-        time_to_eat(othersnakes, me, food, myhead, foodmoves, body)
+        time_to_eat(othersnakes, me, food, myhead, foodmoves)
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
@@ -125,9 +125,9 @@ def move():
         dead = ["left", 'right', 'up', 'down']
         return move_response(dead)
 
-def time_to_eat(othersnakes, me, food, myhead, foodmoves, body):
+def time_to_eat(othersnakes, me, food, myhead, foodmoves):
     print("in time_to_eat")
-    if not is_other_closer_and_bigger(othersnakes, myhead, food, body):
+    if not is_other_closer(othersnakes, myhead, food, body):
         for f in food:
             if (f[0] - myhead[0]) < 0:
                 foodmoves.append("left")
@@ -140,12 +140,11 @@ def time_to_eat(othersnakes, me, food, myhead, foodmoves, body):
 
 
 
-def is_other_closer_and_bigger(othersnakes, myhead, food, body):
+def is_other_closer(othersnakes, myhead, food):
     result = False
     smallestdist = 1000.0
     count = 0
     closestfoodindex = 0
-    otherbody = []
     for f in food:
         myxdist = f[0] - myhead[0]
         myydist = f[1] - myhead[1]
@@ -155,16 +154,12 @@ def is_other_closer_and_bigger(othersnakes, myhead, food, body):
             closestfoodindex = count
         count += 1
     for s in othersnakes:
-        for b in s['body']:
-            bodytuple = (int(b['x']), int(b['y']))
-            otherbody.append(bodytuple)
-        if (len(body) <=  len(otherbody)):
-            head = s['body'][0]
-            otherxdist = food[closestfoodindex][0] - head["x"]
-            otherydist = food[closestfoodindex][1] - head["y"]
-            otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
-            if (otherdist < smallestdist):
-                result = True
+        head = s['body'][0]
+        otherxdist = food[closestfoodindex][0] - head["x"]
+        otherydist = food[closestfoodindex][1] - head["y"]
+        otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
+        if (otherdist < smallestdist):
+            result = True
 
     return result
 
@@ -204,40 +199,46 @@ def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
 
 
 
-def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
+def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes, body):
     xleftcount = 0
     xrightcount = 0
     yupcount = 0
     ydowncount = 0
+    otherbody = []
     for s in othersnakes:
-        if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
-            xleftcount += 1
-            ydowncount += 1
-        if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
-            xleftcount += 1
-        if ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
-            xleftcount += 1
-        if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]-1)):
-            xleftcount += 1
-            yupcount += 1
-        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-1)):
-            yupcount += 1
-        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-2)):
-            yupcount += 1
-        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]-1)):
-            yupcount += 1
-            xrightcount += 1
-        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1])):
-            xrightcount += 1
-        if ((s['body'][0]['x'] == myhead[0]+2) and (s['body'][0]['y'] == myhead[1])):
-            xrightcount += 1
-        if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
-            xrightcount += 1
-            ydowncount += 1
-        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+1)):
-            ydowncount += 1
-        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+2)):
-            ydowncount += 1
+        for s in othersnakes:
+            for b in s['body']:
+                bodytuple = (int(b['x']), int(b['y']))
+                otherbody.append(bodytuple)
+            if (len(body) <=  len(otherbody)):
+                if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
+                    xleftcount += 1
+                    ydowncount += 1
+                if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
+                    xleftcount += 1
+                if ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
+                    xleftcount += 1
+                if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]-1)):
+                    xleftcount += 1
+                    yupcount += 1
+                if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-1)):
+                    yupcount += 1
+                if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-2)):
+                    yupcount += 1
+                if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]-1)):
+                    yupcount += 1
+                    xrightcount += 1
+                if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1])):
+                    xrightcount += 1
+                if ((s['body'][0]['x'] == myhead[0]+2) and (s['body'][0]['y'] == myhead[1])):
+                    xrightcount += 1
+                if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
+                    xrightcount += 1
+                    ydowncount += 1
+                if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+1)):
+                    ydowncount += 1
+                if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+2)):
+                    ydowncount += 1
 
     if (xleftcount == 0):
         othersnakeheadsafemoves.append('left')
