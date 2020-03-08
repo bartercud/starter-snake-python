@@ -27,7 +27,7 @@ def start():
     # print(json.dumps(data))
 
     return {
-        "color": "#AA0004",
+        "color": "#1e1e1e",
         "headType": "shades",
         "tailType": "block-bum"
     }
