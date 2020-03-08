@@ -224,6 +224,11 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
             xrightcount += 1
         if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
             xrightcount += 1
+        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+1)):
+            ydowncount += 1
+        if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+2)):
+            ydowncount += 1
+
     if (xleftcount == 0):
         othersnakeheadsafemoves.append('left')
     if (xrightcount == 0):
