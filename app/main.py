@@ -89,7 +89,7 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    if me['health'] < 89:
+    if me['health'] < 30:
 
         time_to_eat(othersnakes, me, food, myhead, foodmoves)
 
@@ -117,12 +117,13 @@ def move():
     print(finalmoves)
     print(myhead[1])
     print(food)
+    print(boardsize)
     try:
         direction = random.choice(finalmoves)
         return move_response(direction)
     except IndexError:
 
-        dead = ["left", 'right', 'up', 'down']
+        dead = "left"
         return move_response(dead)
 
 def time_to_eat(othersnakes, me, food, myhead, foodmoves):
@@ -180,9 +181,9 @@ def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
     ydowncount = 0
     for s in othersnakes:
         for b in s['body']:
-            if (((b['x'] - 1) == myhead[0]) and (b['y'] == myhead[1])):
+            if (((b['x'] - 1) == myhead[0]-1) and (b['y'] == myhead[1])):
                 xrightcount += 1
-            if (((b['x'] + 1) == myhead[0]) and (b['y'] == myhead[1])):
+            if (((b['x']) == myhead[0] +1) and (b['y'] == myhead[1])):
                 xleftcount += 1
             if (((b['y']) == myhead[1]-1) and (b['x'] == myhead[0])):
                 yupcount += 1
