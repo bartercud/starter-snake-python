@@ -91,7 +91,7 @@ def move():
 
     if me['health'] < 30:
 
-        time_to_eat(othersnakes, me, food, myhead, foodmoves)
+        # time_to_eat(othersnakes, me, food, myhead, foodmoves)
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
