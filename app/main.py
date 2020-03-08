@@ -121,7 +121,7 @@ def move():
     print(finalmoves)
 
     # try:
-    direction = finalmoves[1]
+    direction = finalmoves[0]
     return move_response(direction)
     # except IndexError:
     #
