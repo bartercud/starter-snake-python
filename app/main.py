@@ -121,7 +121,7 @@ def move():
     print(finalmoves)
 
     # try:
-    direction = random.choice(finalmoves)
+    direction = finalmoves[1]
     return move_response(direction)
     # except IndexError:
     #
