@@ -69,6 +69,7 @@ def move():
     othersnakeheadsafemoves = []
     selfsafemoves = []
     tmpmoves = []
+    openmoves = []
     finalmoves = []
 
     print("calling time_to_eat")
@@ -79,6 +80,7 @@ def move():
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
     self_check(myhead, body, selfsafemoves)
+    check_open(othersnakes, myhead, openmoves)
 
 
 
@@ -104,6 +106,8 @@ def move():
             tmpmoves.append("down")
     if (len(tmpmoves) == 0):
         finalmoves = validmoves
+    elif (len(validmoves) == 0):
+        finalmoves = openmoves
     else:
         finalmoves = tmpmoves
 
@@ -259,6 +263,31 @@ def self_check(myhead, body, selfsafemoves):
         selfsafemoves.append('up')
     if (ydowncount == 0):
         selfsafemoves.append('down')
+
+def check_open(othersnakes, myhead, openmoves):
+    xleftcount = 0
+    xrightcount = 0
+    yupcount = 0
+    ydowncount = 0
+    for s in othersnakes:
+        for b in s['body']:
+            if (((b['x']) == myhead[0]+1) and (b['y'] == myhead[1])):
+                xrightcount += 1
+            if (((b['x']) == myhead[0]-1) and (b['y'] == myhead[1])):
+                xleftcount += 1
+            if (((b['y']) == myhead[1]-1) and (b['x'] == myhead[0])):
+                yupcount += 1
+            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
+                ydowncount += 1
+    if (xleftcount == 0):
+        openmoves.append('left')
+    if (xrightcount == 0):
+        openmoves.append('right')
+    if (yupcount == 0):
+        openmoves.append('up')
+    if (ydowncount == 0):
+        openmoves.append('down')
+
 
 
 
