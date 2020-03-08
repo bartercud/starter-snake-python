@@ -244,9 +244,9 @@ def self_check(myhead, body, selfsafemoves):
         if (b[0] == myhead[0]) and (b[1] == myhead[1]+1):
             ydowncount += 1
         if (b[0] == myhead[0]-1) and (b[1] == myhead[1]):
-            xleftcount += 1
-        if (b[0] == myhead[0]+1) and (b[1] == myhead[1]):
             xrightcount += 1
+        if (b[0] == myhead[0]+1) and (b[1] == myhead[1]):
+            xleftcount += 1
     if (xleftcount == 0):
         selfsafemoves.append('left')
     if (xrightcount == 0):
