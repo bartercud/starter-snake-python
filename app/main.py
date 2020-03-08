@@ -204,6 +204,7 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
     for s in othersnakes:
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
             xleftcount += 1
+            ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
             xleftcount += 1
         if ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
@@ -224,6 +225,7 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
             xrightcount += 1
         if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
             xrightcount += 1
+            ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+1)):
             ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+2)):
