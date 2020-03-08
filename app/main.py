@@ -163,11 +163,11 @@ def is_other_closer(othersnakes, myhead, food):
 def wall_detection(boardsize, myhead, wallsafemoves):
     if (myhead[0] != 0):
         wallsafemoves.append('left')
-    if (myhead[0] != boardsize):
+    if (myhead[0] != boardsize-1):
         wallsafemoves.append('right')
     if (myhead[1] != 0):
         wallsafemoves.append('up')
-    if (myhead[1] != boardsize):
+    if (myhead[1] != boardsize-1):
         wallsafemoves.append('down')
 
 def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
