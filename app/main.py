@@ -114,7 +114,7 @@ def move():
 
 def time_to_eat(othersnakes, me, food, myhead, foodmoves):
     print("in time_to_eat")
-    if not is_other_closer(othersnakes, myhead, food, body):
+    if not is_other_closer(othersnakes, myhead, food):
         for f in food:
             if (f[0] - myhead[0]) < 0:
                 foodmoves.append("left")
