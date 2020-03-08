@@ -89,7 +89,7 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    if me['health'] < 85:
+    if me['health'] < 89:
 
         time_to_eat(othersnakes, me, food, myhead, foodmoves, body)
 
