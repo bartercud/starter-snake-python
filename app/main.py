@@ -103,28 +103,14 @@ def move():
             finalmoves.append("down")
     else:
         finalmoves = validmoves
-    print("wallsafemoves: ")
-    print(wallsafemoves)
-    print("othersnakebodysafemoves: ")
-    print(othersnakebodysafemoves)
-    print("othersnakeheadsafemoves")
-    print(othersnakeheadsafemoves)
-    print("selfsafemoves")
-    print(selfsafemoves)
-    print("validmoves: ")
-    print(validmoves)
-    print("finalmoves: ")
-    print(finalmoves)
-    print(myhead[1])
-    print(food)
-    print(boardsize)
-    try:
-        direction = random.choice(finalmoves)
-        return move_response(direction)
-    except IndexError:
 
-        dead = "left"
-        return move_response(dead)
+    # try:
+    direction = random.choice(finalmoves)
+    return move_response(direction)
+    # except IndexError:
+    #
+    #     dead = "left"
+    #     return move_response(dead)
 
 def time_to_eat(othersnakes, me, food, myhead, foodmoves):
     print("in time_to_eat")
