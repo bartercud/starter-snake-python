@@ -91,7 +91,7 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    if me['health'] < 40:
+    if me['health'] < 85:
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
