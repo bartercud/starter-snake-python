@@ -71,6 +71,10 @@ def move():
     tmpmoves = []
     openmoves = []
     finalmoves = []
+    linemoves = []
+    linevalidmoves = []
+    foodlinevalidmoves = []
+
 
     print("calling time_to_eat")
     time_to_eat(food, myhead, foodmoves)
@@ -81,8 +85,7 @@ def move():
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
     self_check(myhead, body, selfsafemoves)
     check_open(othersnakes, myhead, openmoves)
-
-
+    check_last(me, myhead, linemoves)
 
 
     if ("left" in wallsafemoves) and ("left" in othersnakebodysafemoves) and ("left" in othersnakeheadsafemoves) and ("left" in selfsafemoves):
@@ -94,6 +97,15 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
+    if ("left" in validmoves) and ("left" in linemoves):
+        linevalidmoves.append('left')
+    if ("right" in validmoves) and ("right" in linemoves):
+        linevalidmoves.append('right')
+    if ("up" in validmoves) and ("up" in linemoves):
+        linevalidmoves.append('up')
+    if ("down" in validmoves) and ("down" in linemoves):
+        linevalidmoves.append('down')
+
     if me['health'] < 85:
 
         if ("left" in foodmoves) and ("left" in validmoves):
@@ -104,12 +116,25 @@ def move():
             tmpmoves.append("up")
         if ("down" in foodmoves) and ("down" in validmoves):
             tmpmoves.append("down")
-    if (len(tmpmoves) == 0):
-        finalmoves = validmoves
-    elif (len(validmoves) == 0):
-        finalmoves = openmoves
-    else:
+
+        if ("left" in foodmoves) and ("left" in linevalidmoves):
+            foodlinevalidmoves.append("left")
+        if ("right" in foodmoves) and ("right" in linevalidmoves):
+            foodlinevalidmoves.append("right")
+        if ("up" in foodmoves) and ("up" in linevalidmoves):
+            foodlinevalidmoves.append("up")
+        if ("down" in foodmoves) and ("down" in linevalidmoves):
+            foodlinevalidmoves.append("down")
+
+    finalmoves = foodlinevalidmoves
+    if (len(foodlinevalidmoves) == 0):
         finalmoves = tmpmoves
+    if (len(tmpmoves) == 0):
+        finalmoves == linevalidmoves
+    if (len(linevalidmoves) == 0):
+        finalmoves = validmoves
+    if (len(validmoves) == 0):
+        finalmoves = openmoves
 
     try:
         direction = random.choice(finalmoves)
@@ -288,11 +313,16 @@ def check_open(othersnakes, myhead, openmoves):
     if (ydowncount == 0):
         openmoves.append('down')
 
-
-
-
-
-
+def check_last(me, myhead, linemoves):
+    neck = me['body'][1]
+    if ((neck['x'] == myhead[0]) and (neck['y']) == myhead[1] + 1):
+        linemoves.append('up')
+    if ((neck['x'] == myhead[0]) and (neck['y']) == myhead[1] - 1):
+        linemoves.append('down')
+    if ((neck['x'] == myhead[0] + 1) and (neck['y']) == myhead[1]):
+        linemoves.append('left')
+    if ((neck['x'] == myhead[0] - 1) and (neck['y']) == myhead[1]):
+        linemoves.append('right')
 
 # {
 #   "game": {
