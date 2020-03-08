@@ -84,7 +84,7 @@ def move():
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
     self_check(myhead, body, selfsafemoves)
-    check_open(othersnakes, myhead, openmoves)
+    check_open(othersnakes, myhead, openmoves, boardsize)
     check_last(me, myhead, linemoves)
 
 
@@ -289,11 +289,19 @@ def self_check(myhead, body, selfsafemoves):
     if (ydowncount == 0):
         selfsafemoves.append('down')
 
-def check_open(othersnakes, myhead, openmoves):
+def check_open(othersnakes, myhead, openmoves, boardsize):
     xleftcount = 0
     xrightcount = 0
     yupcount = 0
     ydowncount = 0
+    if (myhead[0] == 0):
+        xleftcount += 1
+    if (myhead[0] == boardsize-1):
+        xrightcount += 1
+    if (myhead[1] == 0):
+        yupcount += 1
+    if (myhead[1] == boardsize-1):
+        ydowncount += 1
     for s in othersnakes:
         for b in s['body']:
             if (((b['x']) == myhead[0]+1) and (b['y'] == myhead[1])):
