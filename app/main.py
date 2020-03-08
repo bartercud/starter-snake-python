@@ -68,6 +68,7 @@ def move():
     othersnakebodysafemoves = []
     othersnakeheadsafemoves = []
     selfsafemoves = []
+    tmpmoves = []
     finalmoves = []
 
     print("calling time_to_eat")
@@ -94,27 +95,18 @@ def move():
     if me['health'] < 85:
 
         if ("left" in foodmoves) and ("left" in validmoves):
-            finalmoves.append("left")
+            tmpmoves.append("left")
         if ("right" in foodmoves) and ("right" in validmoves):
-            finalmoves.append("right")
+            tmpmoves.append("right")
         if ("up" in foodmoves) and ("up" in validmoves):
-            finalmoves.append("up")
+            tmpmoves.append("up")
         if ("down" in foodmoves) and ("down" in validmoves):
-            finalmoves.append("down")
-    else:
+            tmpmoves.append("down")
+    if (len(tmpmoves) == 0):
         finalmoves = validmoves
-    print("wallsafemoves: ")
-    print(wallsafemoves)
-    print("othersnakebodysafemoves: ")
-    print(othersnakebodysafemoves)
-    print("othersnakeheadsafemoves")
-    print(othersnakeheadsafemoves)
-    print("selfsafemoves")
-    print(selfsafemoves)
-    print("validmoves: ")
-    print(validmoves)
-    print("finalmoves: ")
-    print(finalmoves)
+    else:
+        finalmoves = tmpmoves
+
     try:
         direction = random.choice(finalmoves)
         return move_response(direction)
