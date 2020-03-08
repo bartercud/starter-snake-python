@@ -27,7 +27,7 @@ def start():
     # print(json.dumps(data))
 
     return {
-        "color": "#1e1e1e",
+        "color": "#AA0004",
         "headType": "shades",
         "tailType": "block-bum"
     }
@@ -70,15 +70,13 @@ def move():
     selfsafemoves = []
     finalmoves = []
 
-    # print("calling time_to_eat")
-    time_to_eat(othersnakes, me, food, myhead, foodmoves, body)
+    print("calling time_to_eat")
+    time_to_eat(othersnakes, me, food, myhead, foodmoves)
     wall_detection(boardsize, myhead, wallsafemoves)
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
     self_check(myhead, body, selfsafemoves)
 
-    print("wallsafemoves:")
-    print(wallsafemoves)
 
 
 
@@ -91,16 +89,9 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    print("validmoves")
-    print(validmoves)
-
-
-
-    if myhealth < 85:
+    if me['health'] < 20:
 
         time_to_eat(othersnakes, me, food, myhead, foodmoves)
-        print("foodmoves")
-        print(foodmoves)
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
@@ -110,27 +101,30 @@ def move():
             finalmoves.append("up")
         if ("down" in foodmoves) and ("down" in validmoves):
             finalmoves.append("down")
-        print('health less than 30')
-
-
     else:
         finalmoves = validmoves
-        print('health above 30')
-
-    print("finalmoves")
+    print("wallsafemoves: ")
+    print(wallsafemoves)
+    print("othersnakebodysafemoves: ")
+    print(othersnakebodysafemoves)
+    print("othersnakeheadsafemoves")
+    print(othersnakeheadsafemoves)
+    print("selfsafemoves")
+    print(selfsafemoves)
+    print("validmoves: ")
+    print(validmoves)
+    print("finalmoves: ")
     print(finalmoves)
-
     try:
-        direction = finalmoves[0]
+        direction = random.choice(finalmoves)
         return move_response(direction)
     except IndexError:
-
         dead = "left"
         return move_response(dead)
 
-def time_to_eat(othersnakes, me, food, myhead, foodmoves, body):
+def time_to_eat(othersnakes, me, food, myhead, foodmoves):
     print("in time_to_eat")
-    if not is_other_closer_and_bigger(othersnakes, myhead, food, body):
+    if not is_other_closer(othersnakes, myhead, food):
         for f in food:
             if (f[0] - myhead[0]) < 0:
                 foodmoves.append("left")
@@ -143,12 +137,11 @@ def time_to_eat(othersnakes, me, food, myhead, foodmoves, body):
 
 
 
-def is_other_closer_and_bigger(othersnakes, myhead, food, body):
+def is_other_closer(othersnakes, myhead, food):
     result = False
     smallestdist = 1000.0
     count = 0
     closestfoodindex = 0
-    otherbody = []
     for f in food:
         myxdist = f[0] - myhead[0]
         myydist = f[1] - myhead[1]
@@ -158,16 +151,12 @@ def is_other_closer_and_bigger(othersnakes, myhead, food, body):
             closestfoodindex = count
         count += 1
     for s in othersnakes:
-        for b in s['body']:
-            bodytuple = (int(b['x']), int(b['y']))
-            otherbody.append(bodytuple)
-        if (len(body) <=  len(otherbody)):
-            head = s['body'][0]
-            otherxdist = food[closestfoodindex][0] - head["x"]
-            otherydist = food[closestfoodindex][1] - head["y"]
-            otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
-            if (otherdist < smallestdist):
-                result = True
+        head = s['body'][0]
+        otherxdist = food[closestfoodindex][0] - head["x"]
+        otherydist = food[closestfoodindex][1] - head["y"]
+        otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
+        if (otherdist < smallestdist):
+            result = True
 
     return result
 
@@ -188,13 +177,13 @@ def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
     ydowncount = 0
     for s in othersnakes:
         for b in s['body']:
-            if (((b['x'] -1) == myhead[0]) and (b['y'] == myhead[1])):
+            if (((b['x'] - 1) == myhead[0]) and (b['y'] == myhead[1])):
                 xrightcount += 1
-            if (((b['x'] +1 ) == myhead[0]) and (b['y'] == myhead[1])):
+            if (((b['x'] + 1) == myhead[0]) and (b['y'] == myhead[1])):
                 xleftcount += 1
-            if (((b['y']) == myhead[1]-1) and (b['x'] == myhead[0])):
+            if (((b['y'] - 1) == myhead[1]) and (b['x'] == myhead[0])):
                 yupcount += 1
-            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
+            if (((b['y'] + 1) == myhead[1]) and (b['x'] == myhead[0])):
                 ydowncount += 1
     if (xleftcount == 0):
         othersnakebodysafemoves.append('left')
@@ -213,11 +202,6 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
     yupcount = 0
     ydowncount = 0
     for s in othersnakes:
-
-        # for b in s['body']:
-        #     bodytuple = (int(b['x']), int(b['y']))
-        #     otherbody.append(bodytuple)
-        # if (len(body) <=  len(otherbody)):
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
             xleftcount += 1
             ydowncount += 1
