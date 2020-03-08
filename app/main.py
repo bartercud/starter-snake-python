@@ -71,7 +71,9 @@ def move():
     finalmoves = []
 
     print("calling time_to_eat")
-    time_to_eat(othersnakes, me, food, myhead, foodmoves)
+    time_to_eat(food, myhead, foodmoves)
+    print("foodmoves 1")
+    print(foodmoves)
     wall_detection(boardsize, myhead, wallsafemoves)
     snake_body_detection(myhead, othersnakebodysafemoves, othersnakes)
     snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes)
@@ -89,9 +91,7 @@ def move():
     if ("down" in wallsafemoves) and ("down" in othersnakebodysafemoves) and ("down" in othersnakeheadsafemoves) and ("down" in selfsafemoves):
         validmoves.append("down")
 
-    if me['health'] < 30:
-
-        # time_to_eat(othersnakes, me, food, myhead, foodmoves)
+    if me['health'] < 40:
 
         if ("left" in foodmoves) and ("left" in validmoves):
             finalmoves.append("left")
@@ -122,23 +122,22 @@ def move():
         dead = "left"
         return move_response(dead)
 
-def time_to_eat(othersnakes, me, food, myhead, foodmoves):
-    print("in time_to_eat")
-    if not is_other_closer(othersnakes, myhead, food):
-        for f in food:
-            if (f[0] - myhead[0]) < 0:
-                foodmoves.append("left")
-            if (f[0] - myhead[0]) > 0:
-                foodmoves.append("right")
-            if (f[1] - myhead[1]) < 0:
-                foodmoves.append("up")
-            if (f[1] - myhead[1]) > 0:
-                foodmoves.append("down")
+def time_to_eat(food, myhead, foodmoves):
+    closestfoodindex = nearest_food(myhead, food)
+    thefood = food[closestfoodindex]
+    if ((thefood[0] - myhead[0])< 0):
+        foodmoves.append("left")
+    if ((thefood[0] - myhead[0]) > 0):
+        foodmoves.append("right")
+    if ((thefood[1] - myhead[1]) < 0):
+        foodmoves.append("up")
+    if ((thefood[1] - myhead[1])>0):
+        foodmoves.append("down")
 
 
 
-def is_other_closer(othersnakes, myhead, food):
-    result = False
+
+def nearest_food(myhead, food):
     smallestdist = 1000.0
     count = 0
     closestfoodindex = 0
@@ -150,15 +149,21 @@ def is_other_closer(othersnakes, myhead, food):
             smallestdist = mydist
             closestfoodindex = count
         count += 1
-    for s in othersnakes:
-        head = s['body'][0]
-        otherxdist = food[closestfoodindex][0] - head["x"]
-        otherydist = food[closestfoodindex][1] - head["y"]
-        otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
-        if (otherdist < smallestdist):
-            result = True
+    return closestfoodindex
 
-    return result
+
+# def is_other_closer(othersnakes, myhead, food):
+#     closestfoodindex = nearest_food(myhead, food)
+#     result = False
+#     for s in othersnakes:
+#         head = s['body'][0]
+#         otherxdist = food[closestfoodindex][0] - head["x"]
+#         otherydist = food[closestfoodindex][1] - head["y"]
+#         otherdist = ((otherxdist)**2 + (otherydist**2))**(1/2)
+#         if (otherdist < smallestdist):
+#             result = True
+#
+#     return result
 
 def wall_detection(boardsize, myhead, wallsafemoves):
     if (myhead[0] != 0):
