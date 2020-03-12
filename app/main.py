@@ -106,7 +106,7 @@ def move():
     if ("down" in validmoves) and ("down" in linemoves):
         linevalidmoves.append('down')
 
-    if me['health'] < 90:
+    if me['health'] < 50:
 
         if ("left" in foodmoves) and ("left" in validmoves):
             tmpmoves.append("left")
