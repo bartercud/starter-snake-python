@@ -21,7 +21,7 @@ def get():
     return {
         "apiversion": "1",
         "author" : "bartercud",
-        "color": "#ff00c8",
+        "color": "#ff00c7",
         "head" : "bendr",
         "tail": "round-bum"
     }
