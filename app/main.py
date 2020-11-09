@@ -16,20 +16,14 @@ def static(path):
     return bottle.static_file(path, root='static/')
 
 
-@bottle.post('/ping')
-def ping():
-    return ping_response()
-
-
-@bottle.post('/start')
-def start():
-    data = bottle.request.json
-    # print(json.dumps(data))
-
+@bottle.GET('/')
+def get():
     return {
-        "color": "#1e1e1e",
-        "headType": "shades",
-        "tailType": "block-bum"
+        "apiversion": "1",
+        "author" : "my_user_name",
+        "color": "#888888",
+        "head" : "default",
+        "tail": "default"
     }
 
 
