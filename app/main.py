@@ -16,11 +16,11 @@ def static(path):
     return bottle.static_file(path, root='static/')
 
 
-@bottle.GET('/')
+@bottle.get('/')
 def get():
     return {
         "apiversion": "1",
-        "author" : "my_user_name",
+        "author" : "bartercud",
         "color": "#888888",
         "head" : "default",
         "tail": "default"
@@ -337,49 +337,6 @@ def check_last(me, myhead, linemoves):
         linemoves.append('left')
     if ((neck['x'] == myhead[0] - 1) and (neck['y']) == myhead[1]):
         linemoves.append('right')
-
-# {
-#   "game": {
-#     "id": "game-id-string"
-#   },
-#   "turn": 4,
-#   "board": {
-#     "height": 15,
-#     "width": 15,
-#     "food": [
-#       {
-#         "x": 1,
-#         "y": 3
-#       }
-#     ],
-#     "snakes": [
-#       {
-#         "id": "snake-id-string",
-#         "name": "Sneky Snek",
-#         "health": 90,
-#         "body": [
-#           {
-#             "x": 1,
-#             "y": 3
-#           }
-#         ],
-#         "shout": "Hello my name is Sneky Snek"
-#       }
-#     ]
-#   },
-#   "you": {
-#     "id": "snake-id-string",
-#     "name": "Sneky Snek",
-#     "health": 90,
-#     "body": [
-#       {
-#         "x": 1,
-#         "y": 3
-#       }
-#     ],
-#     "shout": "Hello my name is Sneky Snek"
-#   }
-# }
 
 
 
