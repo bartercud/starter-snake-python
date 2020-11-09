@@ -157,15 +157,15 @@ def time_to_eat(food, myhead, foodmoves):
     if ((thefood[0] - myhead[0]) > 0):
         foodmoves.append("right")
     if ((thefood[1] - myhead[1]) < 0):
-        foodmoves.append("up")
-    if ((thefood[1] - myhead[1])>0):
         foodmoves.append("down")
+    if ((thefood[1] - myhead[1])>0):
+        foodmoves.append("up")
 
 
 
 
 def nearest_food(myhead, food):
-    smallestdist = 1000.0
+    smallestdist = None
     count = 0
     closestfoodindex = 0
     for f in food:
@@ -198,9 +198,9 @@ def wall_detection(boardsize, myhead, wallsafemoves):
     if (myhead[0] != boardsize-1):
         wallsafemoves.append('right')
     if (myhead[1] != 0):
-        wallsafemoves.append('up')
-    if (myhead[1] != boardsize-1):
         wallsafemoves.append('down')
+    if (myhead[1] != boardsize-1):
+        wallsafemoves.append('up')
 
 def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
     xleftcount = 0
@@ -214,9 +214,9 @@ def snake_body_detection(myhead, othersnakebodysafemoves, othersnakes):
             if (((b['x']) == myhead[0]-1) and (b['y'] == myhead[1])):
                 xleftcount += 1
             if (((b['y']) == myhead[1]-1) and (b['x'] == myhead[0])):
-                yupcount += 1
-            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
                 ydowncount += 1
+            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
+                yupcount += 1
     if (xleftcount == 0):
         othersnakebodysafemoves.append('left')
     if (xrightcount == 0):
@@ -236,20 +236,20 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
     for s in othersnakes:
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]+1)):
             xleftcount += 1
-            ydowncount += 1
+            yupcount += 1
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1])):
             xleftcount += 1
         if ((s['body'][0]['x'] == myhead[0]-2) and (s['body'][0]['y'] == myhead[1])):
             xleftcount += 1
         if ((s['body'][0]['x'] == myhead[0]-1) and (s['body'][0]['y'] == myhead[1]-1)):
             xleftcount += 1
-            yupcount += 1
+            ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-1)):
-            yupcount += 1
+            ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]-2)):
-            yupcount += 1
+            ydowncount += 1
         if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]-1)):
-            yupcount += 1
+            ydowncount += 1
             xrightcount += 1
         if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1])):
             xrightcount += 1
@@ -257,11 +257,11 @@ def snake_head_detection(myhead, othersnakeheadsafemoves, othersnakes):
             xrightcount += 1
         if ((s['body'][0]['x'] == myhead[0]+1) and (s['body'][0]['y'] == myhead[1]+1)):
             xrightcount += 1
-            ydowncount += 1
+            yupcount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+1)):
-            ydowncount += 1
+            yupcount += 1
         if ((s['body'][0]['x'] == myhead[0]) and (s['body'][0]['y'] == myhead[1]+2)):
-            ydowncount += 1
+            yupcount += 1
 
     if (xleftcount == 0):
         othersnakeheadsafemoves.append('left')
@@ -279,9 +279,9 @@ def self_check(myhead, body, selfsafemoves):
     ydowncount = 0
     for b in body:
         if (b[0] == myhead[0]) and (b[1] == myhead[1]-1):
-            yupcount += 1
-        if (b[0] == myhead[0]) and (b[1] == myhead[1]+1):
             ydowncount += 1
+        if (b[0] == myhead[0]) and (b[1] == myhead[1]+1):
+            yupcount += 1
         if (b[0] == myhead[0]-1) and (b[1] == myhead[1]):
             xleftcount += 1
         if (b[0] == myhead[0]+1) and (b[1] == myhead[1]):
@@ -305,9 +305,9 @@ def check_open(othersnakes, myhead, openmoves, boardsize):
     if (myhead[0] == boardsize-1):
         xrightcount += 1
     if (myhead[1] == 0):
-        yupcount += 1
-    if (myhead[1] == boardsize-1):
         ydowncount += 1
+    if (myhead[1] == boardsize-1):
+        yupcount += 1
     for s in othersnakes:
         for b in s['body']:
             if (((b['x']) == myhead[0]+1) and (b['y'] == myhead[1])):
@@ -315,9 +315,9 @@ def check_open(othersnakes, myhead, openmoves, boardsize):
             if (((b['x']) == myhead[0]-1) and (b['y'] == myhead[1])):
                 xleftcount += 1
             if (((b['y']) == myhead[1]-1) and (b['x'] == myhead[0])):
-                yupcount += 1
-            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
                 ydowncount += 1
+            if (((b['y']) == myhead[1]+1) and (b['x'] == myhead[0])):
+                yupcount += 1
     if (xleftcount == 0):
         openmoves.append('left')
     if (xrightcount == 0):
@@ -330,9 +330,9 @@ def check_open(othersnakes, myhead, openmoves, boardsize):
 def check_last(me, myhead, linemoves):
     neck = me['body'][1]
     if ((neck['x'] == myhead[0]) and (neck['y']) == myhead[1] + 1):
-        linemoves.append('up')
-    if ((neck['x'] == myhead[0]) and (neck['y']) == myhead[1] - 1):
         linemoves.append('down')
+    if ((neck['x'] == myhead[0]) and (neck['y']) == myhead[1] - 1):
+        linemoves.append('up')
     if ((neck['x'] == myhead[0] + 1) and (neck['y']) == myhead[1]):
         linemoves.append('left')
     if ((neck['x'] == myhead[0] - 1) and (neck['y']) == myhead[1]):
