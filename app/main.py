@@ -21,9 +21,9 @@ def get():
     return {
         "apiversion": "1",
         "author" : "bartercud",
-        "color": "#888888",
-        "head" : "default",
-        "tail": "default"
+        "color": "#ff00c8",
+        "head" : "shades",
+        "tail": "block-bum"
     }
 
 
